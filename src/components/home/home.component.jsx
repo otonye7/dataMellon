@@ -49,7 +49,7 @@ const Home = () => {
       <div className='container'>
       <br />
       {!isLoading ? null : <LoadingSign />}
-      <Pie
+      <Bar
         data={{
           labels:  [filter],
           datasets: [
