@@ -1,40 +1,91 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import { FilterContainer } from './segment.styles';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import LoadingSign from '../loading/loading.component';
+import NativeSelects from '../segment-form/segment-form.component';
+import { HomeContainer } from './segment.styles';
+import { Bar, Doughnut, Pie} from 'react-chartjs-2';
+import {Link} from 'react-router-dom';
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 250,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
 
-export default function NativeSelects({handleSegmentChange, filterSegment}) {
-  
-  const classes = useStyles();
-  
+const Segment = () => {
+     const [result, setResults] = useState([]);
+     const [segment, setSegment] = useState('');
+     const [isLoading, setIsLoading] = useState(false);
 
-  return (
-    <FilterContainer>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="age-native-helper">Filter by Segments</InputLabel>
-        <NativeSelect
-          value={filterSegment}
-          onChange={handleSegmentChange}
-        >
-          <option aria-label="None" value="" />
-          <option value={"Corporate"}>Corporate</option>
-          <option value={"Consumer"}>Consumer</option>
-        </NativeSelect>
-        <FormHelperText>Filter by Segments</FormHelperText>
-      </FormControl>
-    </FilterContainer>
-  );
+       useEffect(() => {
+           getData()
+       }, [segment])
+
+       const getData = async () => {
+            setIsLoading(true)
+            const res = await axios.post(`https://g54qw205uk.execute-api.eu-west-1.amazonaws.com/DEV/stub`, {
+                "angular_test": "angular-developer"
+               }) 
+            if (res.status === 200)  {
+                setResults(res.data)
+            }
+            setIsLoading(false)
+            }
+
+      const handleSegmentChange = (e) => {
+          setResults([])
+          setIsLoading(false)
+          setSegment(e.target.value)
+      }
+            
+      const city = result.filter((l) => l.Segment === segment)
+      let arraySales = city.map((g) => parseInt(g.Sales))
+      let arraySum = city.map((g) => parseInt(g.Profit))
+      let summedArray = arraySales.reduce((total, amount) => total + amount, 0);
+      let summedProfit = arraySum.reduce((total, amount) => total + amount, 0)  
+
+    return (
+      <HomeContainer>
+      <div className='next'>
+          <NativeSelects handleSegmentChange={handleSegmentChange} segment={segment}/>
+           {/* <Link className='link'>Next</Link> */}
+      </div>
+      {/* <Link to='/' */}
+      <div className='container'>
+      <br />
+      {!isLoading ? null : <LoadingSign />}
+      <Bar
+        data={{
+          labels:  [segment],
+          datasets: [
+            {
+              label: `Total Sales made in ${segment} is ${summedArray}`,
+              backgroundColor: ['rgb(192,57,49)', 'rgb(192,57,49)', 'rgb(192,57,49)'],
+              data: [summedArray],
+            },
+          ],
+        }}
+        options={{
+          legend: { display: false },
+          title: { display: true, text: `Sales state in ${segment}` },
+          
+        }}
+      />
+      <br />
+      <Bar
+        data={{
+          labels:  [segment],
+          datasets: [
+            {
+              label: `Total Profit made in ${segment} is ${summedProfit}`,
+              backgroundColor: ['rgb(192,57,49)',  'rgb(192,57,49)', 'rgb(192,57,49)'],
+              data: [summedProfit],
+            },
+          ],
+        }}
+        options={{
+          legend: { display: false },
+          title: { display: true, text: `Sales state in ${segment}` },
+        }}
+      />
+        </div>
+        </HomeContainer>
+    )
 }
+
+export default Segment;

@@ -44,7 +44,10 @@ const Home = () => {
 
     return (
       <HomeContainer>
-      <NativeSelects handleChange={handleChange} filter={filter}/>
+      <div className='next'>
+          <NativeSelects handleChange={handleChange} filter={filter}/>
+           <Link to='/segment' className='link'>Next</Link>
+      </div>
       {/* <Link to='/' */}
       <div className='container'>
       <br />
