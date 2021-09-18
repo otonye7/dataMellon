@@ -3,7 +3,7 @@ import axios from 'axios';
 import LoadingSign from '../loading/loading.component';
 import NativeSelects from '../segment-form/segment-form.component';
 import { HomeContainer } from './segment.styles';
-import { Bar, Doughnut, Pie} from 'react-chartjs-2';
+import { Bar} from 'react-chartjs-2';
 import {Link} from 'react-router-dom';
 
 
@@ -43,7 +43,7 @@ const Segment = () => {
       <HomeContainer>
       <div className='next'>
           <NativeSelects handleSegmentChange={handleSegmentChange} segment={segment}/>
-           {/* <Link className='link'>Next</Link> */}
+          <Link className='link'>Next</Link> 
       </div>
       {/* <Link to='/' */}
       <div className='container'>

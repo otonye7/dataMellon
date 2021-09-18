@@ -3,7 +3,7 @@ import axios from 'axios';
 import LoadingSign from '../loading/loading.component';
 import NativeSelects from '../filter/filter.component';
 import { HomeContainer } from './home.styles';
-import { Bar, Doughnut, Pie} from 'react-chartjs-2';
+import { Bar} from 'react-chartjs-2';
 import {Link} from 'react-router-dom';
 
 
