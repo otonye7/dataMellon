@@ -43,7 +43,7 @@ const Segment = () => {
       <HomeContainer>
       <div className='next'>
           <NativeSelects handleSegmentChange={handleSegmentChange} segment={segment}/>
-          <Link className='link'>Next</Link> 
+          <Link to='/order' className='link'>Next</Link> 
       </div>
       {/* <Link to='/' */}
       <div className='container'>

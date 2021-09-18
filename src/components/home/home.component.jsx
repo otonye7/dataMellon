@@ -34,11 +34,8 @@ const Home = () => {
       }
             
       const city = result.filter((l) => l.City === filter)
-
-      console.log(city)
       let arraySales = city.map((g) => parseInt(g.Sales))
       let arraySum = city.map((g) => parseInt(g.Profit))
-      console.log(arraySum)
       let summedArray = arraySales.reduce((total, amount) => total + amount, 0);
       let summedProfit = arraySum.reduce((total, amount) => total + amount, 0)  
 
@@ -48,7 +45,6 @@ const Home = () => {
           <NativeSelects handleChange={handleChange} filter={filter}/>
            <Link to='/segment' className='link'>Next</Link>
       </div>
-      {/* <Link to='/' */}
       <div className='container'>
       <br />
       {!isLoading ? null : <LoadingSign />}
